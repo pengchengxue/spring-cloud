@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: springcloud-turbine
+feign:
+  hystrix:
+    enabled: true
+server:
+  port: 8031
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123123@eureka1:8001/eureka/,http://admin:123123@eureka2:8002/eureka/,http://admin:123123@eureka3:8003/eureka/
+turbine:
+  combine-host-port: true
+  prefer-ip-address: true #
+  app-config: microserviceProviderUser,microserviceConsumerMovie
+  cluster-name-expression: metadata['cluster']
+  aggregator:
+    cluster-config: ribbon
+  instanceUrlSuffix: /hystrix.stream

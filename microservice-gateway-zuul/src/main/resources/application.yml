@@ -1,0 +1,47 @@
+server:
+  port: 8040
+spring:
+  application:
+    name: microservice-gateway-zuul
+eureka:
+  client:
+    service-url:
+      defaultZone: http://admin:123123@eureka1:8001/eureka/,http://admin:123123@eureka2:8002/eureka/,http://admin:123123@eureka3:8003/eureka/
+  instance:
+    # 是否注册IP到eureka server，如不指定或设为false，那就会注册主机名到eureka server
+    prefer-ip-address: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+zuul:
+  #每个路由使用独立的线程池
+  thread-pool:
+    useSeparateThreadPools: true
+  routes:
+    #忽略指定微服务
+    #ignored-services: microservice-provider-user,microservice-consumer-movie
+    #标识你服务的名字，这里可以自己定义，一般方便和规范来讲还是跟自己服务的名字一样
+    user-service:
+      #服务映射的路径，通过这路径就可以从外部访问你的服务了，目的是为了不爆露你机器的IP，面向服务的路由了，给你选一个可用的出来，
+      #这里zuul是自动依赖hystrix，ribbon的，不是面向单机
+      path: /users/**
+      #路由前缀
+     # prefix: /api
+      #这里一定要是你Eureka注册中心的服务的名称，是所以这里配置serviceId因为跟eureka结合了，如果单独使用zuul,那么就必须写自己机器的IP了，
+      #如url:http://localhost:8080/  这样的不好就是写死IP了，万一这IP挂了，这高可用性，服务注册那套东西就用不起来了
+      serviceId: microserviceprovideruser   #访问的时候要用小写
+    movies-service:
+      path: /movies/**
+      serviceId: microserviceconsumermovie
+#是否开启重试功能
+ # retryable: true
+#日志
+logging:
+  level:
+    com.netflix: DEBUG
+

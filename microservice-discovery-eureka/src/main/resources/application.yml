@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: microserviceDiscoveryEurekaHa
+--- #注意这里是三个"减号"
+spring:
+  profiles: eureka1
+  security:
+    user:
+      name: admin
+      password: 123123
+server:
+  port: 8001
+eureka:
+  instance:
+    hostname: eureka1
+  client:
+    #是否将自己这个服务注册到EurekaServer中  默认True 此服务为Server  所以为False
+#    registerWithEureka: false
+    #是否从EurekaServer获取注册信息 默认True 单点ES不存在其他的EurkaServer 所以为False
+#    fetchRegistry: false
+
+    serviceUrl:
+      defaultZone: http://admin:123123@eureka2:8002/eureka/,http://admin:123123@eureka3:8003/eureka/
+#      defaultZone: http://eureka2:8002/eureka/,http://eureka3:8003/eureka/
+
+---
+spring:
+  profiles: eureka2
+  security:
+    user:
+      name: admin
+      password: 123123
+server:
+  port: 8002
+eureka:
+  instance:
+    hostname: eureka2
+  client:
+    #是否将自己这个服务注册到EurekaServer中  默认True 此服务为Server  所以为False
+    #    registerWithEureka: false
+    #是否从EurekaServer获取注册信息 默认True 单点ES不存在其他的EurkaServer 所以为False
+    #    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://admin:123123@eureka1:8001/eureka/,http://admin:123123@eureka3:8003/eureka/
+#      defaultZone: http://eureka1:8001/eureka/,http://eureka3:8003/eureka/
+
+---
+spring:
+  profiles: eureka3
+  security:
+    user:
+      name: admin
+      password: 123123
+server:
+  port: 8003
+eureka:
+  instance:
+    hostname: eureka3
+  client:
+    #是否将自己这个服务注册到EurekaServer中  默认True 此服务为Server  所以为False
+    #    registerWithEureka: false
+    #是否从EurekaServer获取注册信息 默认True 单点ES不存在其他的EurkaServer 所以为False
+    #    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://admin:123123@eureka1:8001/eureka/,http://admin:123123@eureka2:8002/eureka/
+#      defaultZone: http://eureka1:8001/eureka/,http://eureka2:8002/eureka/

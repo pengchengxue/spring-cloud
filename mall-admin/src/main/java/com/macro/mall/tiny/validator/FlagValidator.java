@@ -1,0 +1,28 @@
+package com.macro.mall.tiny.validator;
+
+import javax.validation.Constraint;
+import javax.validation.Payload;
+import java.lang.annotation.*;
+
+/**
+ * @Description:    用户验证状态是否在指定范围内的注解
+ * @Author:         pcx
+ * @CreateDate:     2019/8/9 19:48
+ * @UpdateUser:     pcx
+ * @UpdateDate:     2019/8/9 19:48
+ * @UpdateRemark:   修改内容
+ * @Version:        1.0
+ */
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.FIELD,ElementType.PARAMETER})
+@Constraint(validatedBy = FlagValidatorClass.class)
+public @interface FlagValidator {
+    String[] value() default {};
+
+    String message() default "flag is not found";
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+}

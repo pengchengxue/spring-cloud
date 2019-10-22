@@ -1,0 +1,59 @@
+package com.macro.mall.tiny.service;
+
+import com.macro.mall.tiny.dto.SmsFlashPromotionProduct;
+import com.macro.mall.tiny.mbg.model.SmsFlashPromotionProductRelation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Description: 限时购商品关联管理Service
+ * @Author: pcx
+ * @CreateDate: 2019/9/18 18:51
+ * @UpdateUser: pcx
+ * @UpdateDate: 2019/9/18 18:51
+ * @UpdateRemark: 修改内容
+ * @Version: 1.0
+ */
+public interface SmsFlashPromotionProductRelationService {
+
+    /**
+     * 批量添加关联
+     */
+    @Transactional
+    int create(List<SmsFlashPromotionProductRelation> relationList);
+
+    /**
+     * 修改关联相关信息
+     */
+    int update(Long id, SmsFlashPromotionProductRelation relation);
+
+    /**
+     * 删除关联
+     */
+    int delete(Long id);
+
+    /**
+     * 获取关联详情
+     */
+    SmsFlashPromotionProductRelation getItem(Long id);
+
+    /**
+     * 分页查询相关商品及促销信息
+     *
+     * @param flashPromotionId        限时购id
+     * @param flashPromotionSessionId 限时购场次id
+     */
+    List<SmsFlashPromotionProduct> list(Long flashPromotionId, Long flashPromotionSessionId, Integer pageSize, Integer pageNum);
+
+    /**
+     * 根据活动和场次id获取商品关系数量
+     *
+     * @param flashPromotionId
+     * @param flashPromotionSessionId
+     * @return
+     */
+    long getCount(Long flashPromotionId, Long flashPromotionSessionId);
+
+
+}
